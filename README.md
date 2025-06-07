@@ -1,38 +1,28 @@
-# sv
+# READ ME
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This software is a tool that calculates the percentage drop or rise of your favorite cryptocurrency based on the current price. It helps you determine how much to place for a buy order. It's that simple.
 
-## Creating a project
+This is also my first practice project using SvelteKit, deployed at [https://crypto.solitudo.dev/](https://crypto.solitudo.dev/). You can fork it, add your favortie coin and deploy it on Cloudflare Workers.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Cryptocurrency Price Sources Used
 
-```bash
-# create a new project in the current directory
-npx sv create
+[Kraken](https://docs.kraken.com/api/)
+[Binance](https://developers.binance.com/en)
+use public api
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Installation Instructions
 
-## Developing
+1. Using Bun as runtime
+[bun](https://bun.sh/)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+2. Install Package
 
 ```bash
-npm run build
+bun install
 ```
 
-You can preview the production build with `npm run preview`.
+3. run server
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```bash
+bun run dev
+```

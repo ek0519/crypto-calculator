@@ -1,7 +1,11 @@
 <script lang="ts">
-	import '../app.css';
-	
-	let { children } = $props();
+  import "../app.css";
+
+  let { children } = $props();
 </script>
 
-{@render children()}
+<main
+  class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200"
+>
+  {@render children()}
+</main>
