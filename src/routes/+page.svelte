@@ -1,6 +1,7 @@
 <script lang="ts">
-  import Select from "$components/Select.svelte";
-  import Input from "$components/Input.svelte";
+  import * as Select from "$lib/components/ui/select/index.js";
+  import { Input } from "$lib/components/ui/input/index.js";
+
   import { assets } from "$app/paths";
   import logo from "$assets/logo.png";
   import cover from "$assets/cover.jpeg";
@@ -31,6 +32,10 @@
   ];
   let selected = $state("");
   let price = $state(1);
+
+  const triggerContent = $derived(
+    options.find((item) => item.value === selected)?.label,
+  );
 
   $effect(() => {
     if (selected === "CROUSD") {
@@ -69,34 +74,45 @@
   </div>
 
   {#each priceLevelUp as level (level.label)}
-    <div class="grid grid-cols-3 gap-2 py-2 items-center text-green-600">
+    <div class="flex py-2 justify-between text-green-600">
       <label class="px-2" for={level.label}>{level.label}</label>
       <div class="text-right col-span-2" id={level.label}>
         {(level.value * price).toFixed(3)}
       </div>
     </div>
   {/each}
-  <div class="grid grid-cols-3 gap-2 py-2 items-center">
+  <div class="flex justify-between py-2 items-center">
     <label class="px-2" for="crypto">crypto</label>
-    <Select
-      className="rounded bg-gray-600 col-span-2 text-right"
-      bind:selected
-      id="crypto"
-      {options}
-    />
+    <Select.Root type="single" bind:value={selected}>
+      <Select.Trigger class="w-[150px] text-right"
+        >{triggerContent}</Select.Trigger
+      >
+      <Select.Content>
+        {#each options as option (option.value)}
+          <Select.Item
+            label={option.label}
+            value={option.value}
+            class="cursor-pointer hover:bg-gray-700"
+          >
+            {option.label}
+          </Select.Item>
+        {/each}
+      </Select.Content>
+    </Select.Root>
   </div>
-  <div class="grid grid-cols-3 gap-2 py-2 items-center">
+  <div class="flex justify-between py-2 items-center">
     <label class="px-2" for="price">current price</label>
     <Input
+      class="text-right w-[150px]"
       placeholder="Enter current price"
-      className={"text-right col-span-2"}
       type="number"
+      disabled={selected !== ""}
       id="price"
       bind:value={price}
     />
   </div>
   {#each priceLevelDown as level (level.label)}
-    <div class="grid grid-cols-3 gap-2 py-2 items-center text-red-600">
+    <div class="flex justify-between py-2 items-center text-red-600">
       <label class="px-2" for={level.label}>{level.label}</label>
       <div class="text-right col-span-2" id={level.label}>
         {(level.value * price).toFixed(3)}
