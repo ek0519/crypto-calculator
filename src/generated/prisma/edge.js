@@ -133,7 +133,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/ekmanhsieh/Sites/crypto-calculator/src/generated/prisma",
+      "value": "/Users/ekmanhsieh/Sites/crypto-app/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -149,7 +149,7 @@ const config = {
     "previewFeatures": [
       "driverAdapters"
     ],
-    "sourceFilePath": "/Users/ekmanhsieh/Sites/crypto-calculator/prisma/schema.prisma",
+    "sourceFilePath": "/Users/ekmanhsieh/Sites/crypto-app/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -163,6 +163,7 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
