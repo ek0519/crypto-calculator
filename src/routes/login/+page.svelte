@@ -13,18 +13,10 @@
         const successParam = page.url.searchParams.get("success");
         return successParam === "true";
     });
-    const access_token = $derived.by(() => {
-        return page.url.searchParams.get("access_token");
-    });
     const emailIsValid = $derived.by(() => {
         const re =
             /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
-    });
-    $effect(() => {
-        if (access_token) {
-            // goto("/");
-        }
     });
 </script>
 
