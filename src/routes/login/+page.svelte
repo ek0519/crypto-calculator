@@ -1,5 +1,6 @@
 <script lang="ts">
     import { enhance } from "$app/forms";
+    import { goto } from "$app/navigation";
     import { page } from "$app/state";
     import * as Card from "$lib/components/ui/card/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
@@ -12,10 +13,18 @@
         const successParam = page.url.searchParams.get("success");
         return successParam === "true";
     });
+    const access_token = $derived.by(() => {
+        return page.url.searchParams.get("access_token");
+    });
     const emailIsValid = $derived.by(() => {
         const re =
             /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
+    });
+    $effect(() => {
+        if (access_token) {
+            // goto("/");
+        }
     });
 </script>
 

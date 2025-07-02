@@ -1,8 +1,23 @@
 import { env } from "$env/dynamic/private";
 import { type Actions, fail, redirect } from "@sveltejs/kit";
+import type { PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = async ({ url, cookies }) => {
+  const accessToken = url.searchParams.get("access_token");
+  if (accessToken) {
+    cookies.set("access_token", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30, // 1 month
+    });
+    return redirect(303, "/dashboard");
+  }
+};
 
 export const actions: Actions = {
-  default: async ({ request, cookies }) => {
+  default: async ({ request }) => {
     const data = await request.formData();
     const email = data.get("email")?.toString();
     if (!email) return fail(400, { email, incorrect: true });
