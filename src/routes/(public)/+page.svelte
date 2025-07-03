@@ -5,8 +5,8 @@
     import { assets } from "$app/paths";
     import cover from "$assets/cover.jpeg";
     import logo from "$assets/logo.png";
-    import { binanceFetchPrice } from "../api/binance";
-    import { krakenFetchPrice } from "../api/kraken";
+    import { binanceFetchPrice } from "../../api/binance";
+    import { krakenFetchPrice } from "../../api/kraken";
 
     const options = [
         { label: "Bitcoin", value: "BTCUSDC" },

@@ -1,6 +1,6 @@
 import { env } from "$env/dynamic/private";
 import { type Actions, fail, redirect } from "@sveltejs/kit";
-import { getUserProfile } from "../../hooks.server";
+import { getUserProfile } from "../../../hooks.server";
 import type { PageServerLoad } from "./$types";
 export const load: PageServerLoad = async ({ url, locals, cookies }) => {
   const accessToken =
@@ -37,18 +37,6 @@ export const actions: Actions = {
     if (!response.ok) {
       return fail(401, { error: "Email was invalid" });
     }
-
-    // const { token } = (await response.json()) as { token: string };
-
-    // // 設置 HTTP-only cookie
-    // cookies.set("access_token", token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production",
-    //   sameSite: "strict",
-    //   path: "/",
-    //   maxAge: 60 * 60, // 1 小時
-    // });
-
     return redirect(303, "/login?success=true");
   },
 };
