@@ -1,21 +1,44 @@
-import type { Handle } from "@sveltejs/kit";
 import { env } from "$env/dynamic/private";
+import type { Handle } from "@sveltejs/kit";
+import jwt from "@tsndr/cloudflare-worker-jwt";
+
+export interface JwtPayload {
+  sub: string;
+  name: string;
+  email: string;
+  iat: number;
+  exp: number;
+}
 
 export const getUserProfile = async (accessToken: string) => {
-  const apiUrl = env.API_URL;
-  const response = await fetch(`${apiUrl}/users/profile`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  const { data } = await response.json();
-  return data;
+  const jwtData = (await jwt.verify(accessToken, env.JWT_SECRET)) as {
+    payload: JwtPayload;
+  };
+  if (!jwtData) return null;
+  const { payload } = jwtData;
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.exp < now) {
+    return null;
+  }
+  return {
+    id: payload.sub,
+    name: payload.name,
+    email: payload.email,
+  };
 };
 
-export const handle: Handle = async ({ event, resolve }) => {
-  console.log(event.locals.user);
+const passPaths = new Set([
+  "/",
+  "/.well-known/appspecific/com.chrome.devtools.json",
+  "/login",
+]);
 
-  return await resolve(event);
+export const handle: Handle = async ({ event, resolve }) => {
+  const accessToken = event.cookies.get("access_token");
+  const user = accessToken ? await getUserProfile(accessToken) : null;
+  event.locals.user = user;
+  if (passPaths.has(event.url.pathname) || user) {
+    return await resolve(event);
+  }
+  return Response.redirect(`${event.url.origin}/login`, 303);
 };

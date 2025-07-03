@@ -35,5 +35,8 @@
 		"deploy": "bun run build && wrangler deploy",
 		"cf-typegen": "wrangler types ./src/worker-configuration.d.ts"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@tsndr/cloudflare-worker-jwt": "^3.2.0"
+	}
 }
