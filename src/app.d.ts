@@ -13,6 +13,7 @@ declare global {
         name: string;
         email: string;
       } | null;
+      accessToken: string | null;
     }
   }
 }

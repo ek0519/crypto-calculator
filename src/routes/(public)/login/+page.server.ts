@@ -24,7 +24,7 @@ export const actions: Actions = {
     const data = await request.formData();
     const email = data.get("email")?.toString();
     if (!email) return fail(400, { email, incorrect: true });
-    const apiUrl = env.API_URL;
+    const apiUrl = env.PUBLIC_API_URL;
 
     // 向外部 API 發送登入請求
     const response = await fetch(`${apiUrl}/auth/login`, {

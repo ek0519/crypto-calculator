@@ -34,9 +34,10 @@ const passPaths = new Set([
 ]);
 
 export const handle: Handle = async ({ event, resolve }) => {
-  const accessToken = event.cookies.get("access_token");
+  const accessToken = event.cookies.get("access_token") ?? null;
   const user = accessToken ? await getUserProfile(accessToken) : null;
   event.locals.user = user;
+  event.locals.accessToken = accessToken;
   if (passPaths.has(event.url.pathname) || user) {
     return await resolve(event);
   }

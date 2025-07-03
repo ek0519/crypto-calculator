@@ -13,6 +13,6 @@ export async function krakenFetchPrice(selected: string) {
       return Number(data.result[selected].a[0]) as number;
     }
   } catch (err) {
-    throw Error(err.message);
+    console.error(err);
   }
 }
