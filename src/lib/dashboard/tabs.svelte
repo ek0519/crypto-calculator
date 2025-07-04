@@ -4,33 +4,35 @@
   import { ArrowLeftRight, LayoutDashboard } from "@lucide/svelte";
 
   const isActive = (path: string) => {
-    return page.url.pathname === path
-      ? cn("bg-blue-400", "text-gray-100")
-      : cn("bg-blue-200", "text-white");
+    return page.url.pathname === path;
   };
 </script>
 
-<div class="grid grid-cols-2">
+<div class="grid grid-cols-2 bg-white">
   <div>
     <a
-      class="text-center items-center {isActive(
+      class="flex flex-col items-center justify-center py-3 px-4 transition-colors duration-200 {isActive(
         '/dashboard',
-      )} py-2 rounded-tl-2xl flex gap-2 justify-center hover:font-bold"
+      )
+        ? 'text-blue-600 bg-blue-50'
+        : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'}"
       href="/dashboard"
     >
-      <LayoutDashboard />
-      <span>Dashboard</span>
+      <LayoutDashboard size={24} />
+      <span class="text-xs mt-1 font-medium">Dashboard</span>
     </a>
   </div>
   <div>
     <a
-      class="text-center items-center flex {isActive(
+      class="flex flex-col items-center justify-center py-3 px-4 transition-colors duration-200 {isActive(
         '/transcation',
-      )} py-2 rounded-tr-2xl gap-2 justify-center hover:font-bold"
+      )
+        ? 'text-blue-600 bg-blue-50'
+        : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'}"
       href="/transcation"
     >
-      <ArrowLeftRight />
-      <span>Transcation</span>
+      <ArrowLeftRight size={24} />
+      <span class="text-xs mt-1 font-medium">Transaction</span>
     </a>
   </div>
 </div>

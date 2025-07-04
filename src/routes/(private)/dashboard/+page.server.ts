@@ -71,7 +71,6 @@ export const load = async ({ locals, cookies }) => {
   ] as CryptoPrice[];
   if (response) {
     const { latestTransactions, portfolioTotal, coinDistribution } = response;
-    console.log(coinDistribution);
     const realTimeTotalPrice = computedRealTimeTotalPrice({
       realTimePrices,
       coinDistribution,

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": []
+    "include": ["src/**/*.{js,ts,jsx,tsx,svelte}"],
+    "ignore": ["node_modules", "dist"]
   },
   "formatter": {
     "enabled": true,
