@@ -9,6 +9,7 @@ export const options = [
   { label: "SUI", value: "SUIUSDC" },
   { label: "CUSTOM", value: "" },
 ];
+
 export const priceLevelDown = [
   { label: "-3%", value: 0.97 },
   { label: "-5%", value: 0.95 },

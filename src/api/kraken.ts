@@ -10,7 +10,7 @@ export async function krakenFetchPrice(selected: string) {
     const data: KrakenResponse = await response.json();
 
     if (response.ok) {
-      return Number(data.result[selected].a[0]) as number;
+      return data.result[selected].a[0];
     }
   } catch (err) {
     console.error(err);

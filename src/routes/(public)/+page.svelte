@@ -19,7 +19,7 @@
   $effect(() => {
     if (selected === "CROUSD") {
       krakenFetchPrice(selected).then((r) => {
-        if (r) price = r;
+        if (r) price = Number(r);
       });
     } else if (selected) {
       binanceFetchPrice(selected).then((r) => {

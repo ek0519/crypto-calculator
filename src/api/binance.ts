@@ -19,6 +19,8 @@ export async function binanceFetchPrice(selected: string) {
 export async function binanceFetchPrices() {
   const response = await fetch("https://api.binance.com/api/v3/ticker/price");
   const data: CryptoPrice[] = await response.json();
-  const coins = options.map((item) => item.value);
+  const coins = options
+    .filter((item) => !["CROUSD", ""].includes(item.value))
+    .map((item) => item.value);
   return coins.map((coin) => data.find((item) => item.symbol === coin));
 }

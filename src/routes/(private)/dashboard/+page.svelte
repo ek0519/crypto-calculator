@@ -1,53 +1,23 @@
 <script lang="ts">
-  import * as Tabs from "$lib/components/ui/tabs/index.js";
-  import { dashboard } from "../../../api/backend.js";
-  import { binanceFetchPrices } from "../../../api/binance.js";
+  import Holding from "$lib/dashboard/holding.svelte";
+  import Price from "$lib/dashboard/price.svelte";
+  import Transcation from "$lib/dashboard/transcation.svelte";
   import type { PageProps } from "./$types";
-
   let { data }: PageProps = $props();
-
-  let dashboardData = $state({
-    portfolioTotal: 0,
-    coinDistribution: [
-      {
-        symbol: "",
-        amountCount: 0,
-        totalValue: 0,
-      },
-    ],
-    latestTransactions: [
-      {
-        symbol: "",
-        id: "",
-        amount: 0,
-        price: 0,
-        userId: "",
-      },
-    ],
-  });
-
-  $effect(() => {
-    (async () => {
-      try {
-        const r = await dashboard(data.access_token);
-        if (r) dashboardData = r;
-        const pirces = await binanceFetchPrices();
-        console.log(pirces);
-      } catch (error) {
-        console.error("Failed to fetch dashboard data:", error);
-      }
-    })();
+  const { latestTransactions, realTimeTotalPrice, portfolioTotal, holdings } =
+    data;
+  const realTimePriceColor = $derived.by(() => {
+    if (!realTimeTotalPrice || !portfolioTotal) return "text-gray-500";
+    return realTimeTotalPrice > portfolioTotal
+      ? "text-green-500"
+      : "text-red-500";
   });
 </script>
 
-<Tabs.Root value="dashboard" class="w-[400px]">
-  <Tabs.List>
-    <Tabs.Trigger value="dashboard">Dashboard</Tabs.Trigger>
-    <Tabs.Trigger value="transcation">Transcation</Tabs.Trigger>
-  </Tabs.List>
-  <Tabs.Content value="dashboard">
-    {dashboardData.portfolioTotal}
-    Make changes to your dashboard here.
-  </Tabs.Content>
-  <Tabs.Content value="transcation">Change your password here.</Tabs.Content>
-</Tabs.Root>
+<div class="bg-blue-400 min-h-9/12 rounded-b-2xl">
+  <div class="rounded-2xl px-4 py-6">
+    <Price {realTimeTotalPrice} {portfolioTotal} {realTimePriceColor} />
+    <Holding {holdings} />
+    <Transcation {latestTransactions} />
+  </div>
+</div>
