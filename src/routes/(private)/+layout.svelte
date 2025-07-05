@@ -7,7 +7,7 @@
 
 <main class="flex justify-center mx-auto h-screen bg-gray-100 text-gray-800">
   <div class="container max-w-md h-full relative">
-    <div class="h-full overflow-y-auto pb-20">
+    <div class="h-full overflow-y-auto">
       {@render children()}
     </div>
     <div

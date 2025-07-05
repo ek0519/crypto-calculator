@@ -14,7 +14,7 @@
   });
 </script>
 
-<div class="bg-blue-400 min-h-9/12 rounded-b-2xl">
+<div class="bg-blue-400 h-full">
   <div class="rounded-2xl px-4 py-6">
     <Price {realTimeTotalPrice} {portfolioTotal} {realTimePriceColor} />
     <Holding {holdings} />
