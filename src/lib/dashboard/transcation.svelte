@@ -1,14 +1,18 @@
 <script lang="ts">
+  import type { TransactionType } from "$type/transaction";
   import { ArrowBigLeft, ArrowBigRight } from "@lucide/svelte";
   import dayjs from "dayjs";
 
-  let { latestTransactions } = $props();
+  let {
+    latestTransactions: transactions,
+    title,
+  }: { latestTransactions: TransactionType[]; title: string } = $props();
 </script>
 
-<section class="bg-gray-50 rounded-2xl p-4 mb-4 font-bold text-center">
-  <h1 class="text-2xl text-left">最新交易</h1>
+<section class="bg-gray-50 rounded-2xl p-4 mb-16 font-bold text-center">
+  <h1 class="text-2xl text-left">{title}</h1>
   <div class="max-w-[500px] mx-auto mt-4">
-    {#each latestTransactions as transaction}
+    {#each transactions as transaction}
       <div
         class="flex justify-between items-center p-2 border-b border-gray-200"
       >
@@ -22,10 +26,10 @@
           <div class="text-lg">$ {transaction.price.toFixed(4)}</div>
           <div class="flex justify-end items-center gap-2">
             <span>
-              {#if transaction.type === "BUY"}
-                <ArrowBigLeft size="24" color="red" />
-              {:else}
+              {#if transaction.direction === "BUY"}
                 <ArrowBigRight size="24" color="green" />
+              {:else}
+                <ArrowBigLeft size="24" color="red" />
               {/if}
             </span>
             <div class="text-sm text-gray-400">{transaction.amount} unit</div>

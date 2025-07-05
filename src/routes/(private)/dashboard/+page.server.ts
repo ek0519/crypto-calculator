@@ -58,7 +58,7 @@ const holdings = ({
   });
 };
 
-export const load = async ({ locals, cookies }) => {
+export const load = async ({ cookies }) => {
   const access_token = cookies.get("access_token") ?? "";
   const [response, prices, croPrice] = await Promise.all([
     dashboard(access_token),

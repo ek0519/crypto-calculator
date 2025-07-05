@@ -2,7 +2,9 @@
   import Holding from "$lib/dashboard/holding.svelte";
   import Price from "$lib/dashboard/price.svelte";
   import Transcation from "$lib/dashboard/transcation.svelte";
+  import type { TransactionType } from "$type/transaction";
   import type { PageProps } from "./$types";
+
   let { data }: PageProps = $props();
   const { latestTransactions, realTimeTotalPrice, portfolioTotal, holdings } =
     data;
@@ -14,10 +16,11 @@
   });
 </script>
 
-<div class="bg-blue-400 h-full">
-  <div class="rounded-2xl px-4 py-6">
-    <Price {realTimeTotalPrice} {portfolioTotal} {realTimePriceColor} />
-    <Holding {holdings} />
-    <Transcation {latestTransactions} />
-  </div>
+<div class="rounded-2xl px-4">
+  <Price {realTimeTotalPrice} {portfolioTotal} {realTimePriceColor} />
+  <Holding {holdings} />
+  <Transcation
+    title={"最新交易"}
+    latestTransactions={latestTransactions as TransactionType[]}
+  />
 </div>

@@ -83,8 +83,8 @@ export interface GetTransactionsParams extends BasePrams {
   page?: number;
   limit?: number;
   symbol: string;
-  from?: Date;
-  to?: Date;
+  from?: string;
+  to?: string;
 }
 
 export const getTransactions = async ({
@@ -105,4 +105,5 @@ export const getTransactions = async ({
     },
     ...options(access_token),
   });
+  return response.data;
 };

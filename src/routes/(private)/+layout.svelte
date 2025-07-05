@@ -6,8 +6,8 @@
 </script>
 
 <main class="flex justify-center mx-auto h-screen bg-gray-100 text-gray-800">
-  <div class="container max-w-md h-full relative">
-    <div class="h-full overflow-y-auto">
+  <div class="container max-w-md h-full relative bg-blue-400">
+    <div class="h-full overflow-y-auto py-6">
       {@render children()}
     </div>
     <div
