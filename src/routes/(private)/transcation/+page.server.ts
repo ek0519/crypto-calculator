@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { getTransactions } from "../../../api/backend";
+import { Direction, getTransactions } from "../../../api/backend";
 
 export const load = async ({ cookies, url }) => {
   const page = url.searchParams.get("page") ?? "1";
@@ -7,10 +7,12 @@ export const load = async ({ cookies, url }) => {
   const symbol = url.searchParams.get("symbol") ?? "";
   const from = url.searchParams.get("from") ?? "";
   const to = url.searchParams.get("to") ?? "";
+  const direction = (url.searchParams.get("direction") as Direction) ?? "";
   const response = await getTransactions({
     access_token: cookies.get("access_token") ?? "",
     page: Number(page),
     limit: Number(limit),
+    direction,
     symbol,
     from: from ? dayjs(from).format("YYYY-MM-DD") : undefined,
     to: to ? dayjs(to).format("YYYY-MM-DD") : undefined,
@@ -22,7 +24,7 @@ export const load = async ({ cookies, url }) => {
       limit: response.limit,
       totalPage: response.totalPage,
       nextPage: response.nextPage,
-      filters: { symbol, from, to },
+      filters: { symbol, from, to, direction },
     };
   }
 };

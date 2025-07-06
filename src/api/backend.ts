@@ -35,6 +35,7 @@ export const login = async (email: string) => {
 export enum Direction {
   BUY = "BUY",
   SELL = "SELL",
+  ALL = "ALL",
 }
 
 export interface CreateTransactionParams extends BasePrams {
@@ -82,6 +83,7 @@ export const getTransaction = async (access_token: string, id: string) => {
 export interface GetTransactionsParams extends BasePrams {
   page?: number;
   limit?: number;
+  direction?: Direction;
   symbol: string;
   from?: string;
   to?: string;
@@ -93,6 +95,7 @@ export const getTransactions = async ({
   limit = 10,
   symbol,
   from,
+  direction,
   to,
 }: GetTransactionsParams) => {
   const response = await client.transcations.get({
@@ -100,6 +103,7 @@ export const getTransactions = async ({
       page,
       limit,
       symbol,
+      direction,
       from,
       to,
     },

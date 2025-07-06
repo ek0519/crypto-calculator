@@ -16,6 +16,7 @@
   import { options } from "../../config/crypto";
   import { goto } from "$app/navigation";
   import _ from "lodash";
+  import { ArrowUpDown } from "@lucide/svelte";
 
   const { filters, limit } = $props();
 
@@ -24,11 +25,13 @@
     end: filters?.to ? parseDate(filters.to) : undefined,
   });
   let symbol = $state(filters?.symbol ?? "ALL");
+  let direction = $state(filters?.direction ?? null);
 
   const debouncedSearch = _.debounce(async () => {
     const query = new URLSearchParams({
       page: "1",
       limit: String(limit ?? "10"),
+      direction: direction ? direction : "",
       symbol: symbol !== "ALL" ? String(symbol ?? "") : "",
       from: String(value.start?.toString() ?? ""),
       to: String(value.end?.toString() ?? ""),
@@ -39,10 +42,26 @@
   $effect(() => {
     symbol;
     value;
+    direction;
     debouncedSearch();
   });
 
   const cryptoOptions = ["ALL", ...options.map((item) => item.label)];
+
+  const directionOptions = [
+    {
+      label: "ALL",
+      value: "",
+    },
+    {
+      label: "BUY",
+      value: "BUY",
+    },
+    {
+      label: "SELL",
+      value: "SELL",
+    },
+  ];
 
   const df = new DateFormatter("en-US", {
     dateStyle: "medium",
@@ -53,28 +72,55 @@
   const triggerContent = $derived(
     options.find((item) => item.label === symbol)?.label || "ALL",
   );
+
+  const triggerDirectionContent = $derived(
+    directionOptions.find((item) => item.label === direction)?.label || "ALL",
+  );
 </script>
 
 <section class="py-4">
   <div class="flex justify-end items-center gap-2 mb-4">
-    <label><Bitcoin color="orange" size="32" /></label>
-    <div class="bg-white rounded-sm overflow-auto">
-      <Select.Root type="single" bind:value={symbol}>
-        <Select.Trigger class="w-[150px] text-right"
-          >{triggerContent}</Select.Trigger
-        >
-        <Select.Content>
-          {#each cryptoOptions as option (option)}
-            <Select.Item
-              label={option}
-              value={option}
-              class="cursor-pointer hover:bg-gray-700"
-            >
-              {option}
-            </Select.Item>
-          {/each}
-        </Select.Content>
-      </Select.Root>
+    <div class="flex items-center gap-2">
+      <label><Bitcoin color="orange" size="32" /></label>
+      <div class="bg-white rounded-sm overflow-auto">
+        <Select.Root type="single" bind:value={symbol}>
+          <Select.Trigger class="w-[150px] text-right"
+            >{triggerContent}</Select.Trigger
+          >
+          <Select.Content>
+            {#each cryptoOptions as option (option)}
+              <Select.Item
+                label={option}
+                value={option}
+                class="cursor-pointer hover:bg-gray-700"
+              >
+                {option}
+              </Select.Item>
+            {/each}
+          </Select.Content>
+        </Select.Root>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span><ArrowUpDown size="32" color="orange" /></span>
+      <div class="bg-white rounded-sm overflow-auto">
+        <Select.Root type="single" bind:value={direction}>
+          <Select.Trigger class="w-[150px] text-right"
+            >{triggerDirectionContent}</Select.Trigger
+          >
+          <Select.Content>
+            {#each directionOptions as option (option)}
+              <Select.Item
+                label={option.label}
+                value={option.value}
+                class="cursor-pointer hover:bg-gray-700"
+              >
+                {option.label}
+              </Select.Item>
+            {/each}
+          </Select.Content>
+        </Select.Root>
+      </div>
     </div>
   </div>
   <div class="grid gap-2">
