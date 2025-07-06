@@ -18,7 +18,7 @@
   import _ from "lodash";
   import { ArrowUpDown } from "@lucide/svelte";
 
-  const { filters, limit } = $props();
+  const { filters } = $props();
 
   let value: DateRange = $state({
     start: filters?.from ? parseDate(filters.from) : undefined,
@@ -30,7 +30,7 @@
   const debouncedSearch = _.debounce(async () => {
     const query = new URLSearchParams({
       page: "1",
-      limit: String(limit ?? "10"),
+      limit: String(filters?.limit ?? "10"),
       direction: direction ? direction : "",
       symbol: symbol !== "ALL" ? String(symbol ?? "") : "",
       from: String(value.start?.toString() ?? ""),

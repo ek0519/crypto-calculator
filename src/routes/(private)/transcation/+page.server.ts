@@ -20,11 +20,17 @@ export const load = async ({ cookies, url }) => {
   if (response) {
     return {
       transactions: response.data,
-      page: response.page,
-      limit: response.limit,
-      totalPage: response.totalPage,
-      nextPage: response.nextPage,
-      filters: { symbol, from, to, direction },
+      filters: {
+        symbol,
+        from,
+        to,
+        direction,
+        page: response.page,
+        limit: response.limit,
+        total: response.total,
+        totalPage: response.totalPage,
+        nextPage: response.nextPage,
+      },
     };
   }
 };

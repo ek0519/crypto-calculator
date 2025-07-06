@@ -9,7 +9,7 @@
   }: { latestTransactions: TransactionType[]; title: string } = $props();
 </script>
 
-<section class="bg-gray-50 rounded-2xl p-4 mb-16 font-bold text-center">
+<section class="bg-gray-50 rounded-2xl p-4 font-bold text-center">
   <h1 class="text-2xl text-left">{title}</h1>
   <div class="max-w-[500px] mx-auto mt-4">
     {#each transactions as transaction}

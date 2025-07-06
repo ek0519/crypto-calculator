@@ -3,16 +3,22 @@
   import Transcation from "$lib/dashboard/transcation.svelte";
   import type { TransactionType } from "$type/transaction";
   import Search from "@/dashboard/search.svelte";
+
   let { data }: PageProps = $props();
   let filters = $state(data.filters);
-  let limit = $state(data.limit);
   let transactions = $derived(data.transactions);
+  let limit = $state(filters?.limit);
+  let count = $state(filters?.total);
+  let page = $state(filters?.page);
+  let totalPage = $state(filters?.totalPage);
 </script>
 
 <div class="rounded-b-2xl px-4">
-  <Search {filters} {limit} />
-  <Transcation
-    title={"交易紀錄"}
-    latestTransactions={transactions as TransactionType[]}
-  />
+  <Search {filters} />
+  <div class="mb-16">
+    <Transcation
+      title={"交易紀錄"}
+      latestTransactions={transactions as TransactionType[]}
+    />
+  </div>
 </div>
