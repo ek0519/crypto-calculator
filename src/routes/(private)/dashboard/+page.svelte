@@ -16,7 +16,7 @@
   });
 </script>
 
-<div class="rounded-2xl px-4">
+<div class="rounded-2xl px-4 mb-16">
   <Price {realTimeTotalPrice} {portfolioTotal} {realTimePriceColor} />
   <Holding {holdings} />
   <Transcation

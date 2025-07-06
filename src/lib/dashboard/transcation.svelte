@@ -10,7 +10,7 @@
 </script>
 
 <section class="bg-gray-50 rounded-2xl p-4 font-bold text-center">
-  <h1 class="text-2xl text-left">{title}</h1>
+  <h1 class="text-xl text-left">{title}</h1>
   <div class="max-w-[500px] mx-auto mt-4">
     {#each transactions as transaction}
       <div

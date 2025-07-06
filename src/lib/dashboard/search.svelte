@@ -79,12 +79,12 @@
 </script>
 
 <section class="py-4">
-  <div class="flex justify-end items-center gap-2 mb-4">
-    <div class="flex items-center gap-2">
-      <label><Bitcoin color="orange" size="32" /></label>
-      <div class="bg-white rounded-sm overflow-auto">
+  <div class="grid grid-cols-2 gap-2 items-center mb-4">
+    <div class="flex items-center w-full">
+      <Bitcoin class="w-1/4" color="orange" size="24" />
+      <div class="w-3/4 bg-white rounded-sm overflow-auto">
         <Select.Root type="single" bind:value={symbol}>
-          <Select.Trigger class="w-[150px] text-right"
+          <Select.Trigger class="w-full text-right"
             >{triggerContent}</Select.Trigger
           >
           <Select.Content>
@@ -101,11 +101,11 @@
         </Select.Root>
       </div>
     </div>
-    <div class="flex items-center gap-2">
-      <span><ArrowUpDown size="32" color="orange" /></span>
-      <div class="bg-white rounded-sm overflow-auto">
+    <div class="flex items-center">
+      <ArrowUpDown class="w-1/4" size="24" color="orange" />
+      <div class="w-3/4 bg-white rounded-sm overflow-auto">
         <Select.Root type="single" bind:value={direction}>
-          <Select.Trigger class="w-[150px] text-right"
+          <Select.Trigger class="w-full text-right"
             >{triggerDirectionContent}</Select.Trigger
           >
           <Select.Content>
