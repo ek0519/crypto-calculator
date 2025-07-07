@@ -44,6 +44,7 @@ export interface CreateTransactionParams extends BasePrams {
   price: number;
   note?: string;
   direction: "BUY" | "SELL";
+  purchaseDate: Date; // ISO date string
 }
 
 export const createTransaction = async ({
@@ -53,15 +54,21 @@ export const createTransaction = async ({
   price,
   note,
   direction,
+  purchaseDate,
 }: CreateTransactionParams) => {
-  const response = await client.transcations.post({
-    symbol,
-    amount,
-    price,
-    note,
-    direction,
-    ...options(access_token),
-  });
+  const response = await client.transcations.post(
+    {
+      symbol,
+      amount,
+      price,
+      note,
+      direction,
+      purchaseDate,
+    },
+    {
+      ...options(access_token),
+    },
+  );
   if (response.status !== 200) {
     throw new Error("Transaction creation failed");
   }

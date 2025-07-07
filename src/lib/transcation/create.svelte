@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Bitcoin } from "@lucide/svelte";
   import * as Form from "$lib/components/ui/form/index.js";
   import * as Select from "$lib/components/ui/select/index.js";
   import { formSchema, type FormSchema } from "./schema";
@@ -10,25 +9,22 @@
   } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
   import { options } from "../../config/crypto";
-  import { getLocalTimeZone, today } from "@internationalized/date";
-  import { Calendar } from "$lib/components/ui/calendar/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
+  import { Label } from "$lib/components/ui/label/index.js";
+  import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
 
   let {
     data,
     title,
   }: { data: { form: SuperValidated<Infer<FormSchema>> }; title: string } =
     $props();
-  console.log(data.form);
   const form = superForm(data.form, {
     validators: zodClient(formSchema),
   });
 
   const { form: formData, enhance } = form;
-  console.log(formData);
 
-  let value = $state(today(getLocalTimeZone()));
-  let symbol = $state(options[0].label);
+  let symbol = $state($formData.symbol);
   const triggerContent = $derived(
     options.find((item) => item.label === symbol)?.label,
   );
@@ -36,14 +32,12 @@
 
 <section class="bg-gray-50 rounded-2xl p-4 mb-4 font-bold text-center">
   <h1 class="text-xl text-left">{title}</h1>
-  <form method="POST" use:enhance>
+  <form method="POST" class="pt-4 grid gap-1" use:enhance>
     <Form.Field {form} name="symbol">
       <Form.Control>
         {#snippet children({ props })}
-          <Form.Label>
-            <Bitcoin class="w-1/4" color="orange" size="24" />
-          </Form.Label>
-          <Select.Root type="single" {...props} bind:value={symbol}>
+          <Form.Label>交易幣別</Form.Label>
+          <Select.Root type="single" {...props} bind:value={$formData.symbol}>
             <Select.Trigger class="w-full text-right"
               >{triggerContent}</Select.Trigger
             >
@@ -61,22 +55,43 @@
           </Select.Root>
         {/snippet}
       </Form.Control>
-      <Form.Description>This is your public display name.</Form.Description>
       <Form.FieldErrors />
     </Form.Field>
     <Form.Field {form} name="purchaseDate">
       <Form.Control>
         {#snippet children({ props })}
           <Form.Label>交易日期</Form.Label>
-          <Calendar
+          <Input
+            class="justify-end"
             {...props}
-            type="single"
-            bind:value
-            class="rounded-md border shadow-sm w-full "
-            captionLayout="dropdown"
+            type="date"
+            bind:value={$formData.purchaseDate}
           />
         {/snippet}
       </Form.Control>
+    </Form.Field>
+    <Form.Field {form} name="direction">
+      <Form.Control>
+        {#snippet children({ props })}
+          <Form.Label>交易</Form.Label>
+          <RadioGroup.Root
+            {...props}
+            class="flex gap-4 items-center justify-end"
+            bind:value={$formData.direction}
+            orientation="horizontal"
+          >
+            <div class="flex items-center space-x-2">
+              <RadioGroup.Item value="BUY" id="BUY" />
+              <Label for="BUY">買</Label>
+            </div>
+            <div class="flex items-center space-x-2">
+              <RadioGroup.Item value="SELL" id="SELL" />
+              <Label for="SELL">賣</Label>
+            </div>
+          </RadioGroup.Root>
+        {/snippet}
+      </Form.Control>
+      <Form.FieldErrors />
     </Form.Field>
     <Form.Field {form} name="price">
       <Form.Control>
@@ -84,13 +99,14 @@
           <Form.Label>交易價格</Form.Label>
           <Input
             {...props}
+            step="0.0000001"
             type="number"
+            bind:value={$formData.price}
             placeholder="交易價格"
-            class="w-full"
+            class="w-full text-right"
           />
         {/snippet}
       </Form.Control>
-      <Form.Description>交易價格</Form.Description>
       <Form.FieldErrors />
     </Form.Field>
     <Form.Field {form} name="amount">
@@ -100,12 +116,28 @@
           <Input
             {...props}
             type="number"
+            step="0.0000001"
+            bind:value={$formData.amount}
             placeholder="交易數量"
-            class="w-full"
+            class="w-full text-right"
           />
         {/snippet}
       </Form.Control>
-      <Form.Description>交易數量</Form.Description>
+      <Form.FieldErrors />
+    </Form.Field>
+    <Form.Field {form} name="note">
+      <Form.Control>
+        {#snippet children({ props })}
+          <Form.Label>備注</Form.Label>
+          <Input
+            {...props}
+            type="text"
+            bind:value={$formData.note}
+            placeholder="(選填)備註"
+            class="w-full text-right"
+          />
+        {/snippet}
+      </Form.Control>
       <Form.FieldErrors />
     </Form.Field>
     <Form.Button>Submit</Form.Button>
