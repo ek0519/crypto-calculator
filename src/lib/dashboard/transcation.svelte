@@ -13,7 +13,8 @@
   <h1 class="text-xl text-left">{title}</h1>
   <div class="max-w-[500px] mx-auto mt-4">
     {#each transactions as transaction}
-      <div
+      <a
+        href="/transcation/{transaction.id}"
         class="flex justify-between items-center p-2 border-b border-gray-200"
       >
         <div class="text-left">
@@ -35,7 +36,7 @@
             <div class="text-sm text-gray-400">{transaction.amount} unit</div>
           </div>
         </div>
-      </div>
+      </a>
     {/each}
   </div>
 </section>

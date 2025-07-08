@@ -75,16 +75,28 @@ export const createTransaction = async ({
   return response.data;
 };
 
+interface Transaction {
+  id: string;
+  purchaseDate: Date;
+  direction: "BUY" | "SELL";
+  userId: string;
+  symbol: string;
+  amount: number;
+  price: number;
+  note: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export const getTransaction = async (access_token: string, id: string) => {
-  const response = await client["transcations:id"].get({
-    query: {
-      id,
-    },
-  });
+  const response = await client[`transcations/${id}`].get(
+    options(access_token),
+  );
+
   if (response.status !== 200) {
     throw new Error("Transaction get failed");
   }
-  return response.data;
+  return response.data as { data: Transaction };
 };
 
 export interface GetTransactionsParams extends BasePrams {
@@ -116,5 +128,38 @@ export const getTransactions = async ({
     },
     ...options(access_token),
   });
+  return response.data;
+};
+
+export interface UpdateTransactionParams extends CreateTransactionParams {
+  id: string;
+}
+
+export const updateTransaction = async ({
+  access_token,
+  symbol,
+  amount,
+  price,
+  note,
+  direction,
+  purchaseDate,
+  id,
+}: UpdateTransactionParams) => {
+  const response = await client[`transcations/${id}`].put(
+    {
+      symbol,
+      amount,
+      price,
+      note,
+      direction,
+      purchaseDate,
+    },
+    {
+      ...options(access_token),
+    },
+  );
+  if (response.status !== 200) {
+    throw new Error("Transaction update failed");
+  }
   return response.data;
 };

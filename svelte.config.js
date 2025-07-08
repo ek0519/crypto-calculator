@@ -20,6 +20,7 @@ const config = {
       "@/*": "src/lib/*",
       $routes: "src/routes",
       $type: "src/types",
+      $api: "src/api",
     },
   },
 };

@@ -7,10 +7,6 @@
   let { data }: PageProps = $props();
   let filters = $state(data.filters);
   let transactions = $derived(data.transactions);
-  let limit = $state(filters?.limit);
-  let count = $state(filters?.total);
-  let page = $state(filters?.page);
-  let totalPage = $state(filters?.totalPage);
 </script>
 
 <div class="rounded-b-2xl px-4">

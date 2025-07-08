@@ -15,13 +15,16 @@
 
   let {
     data,
+    id = "",
     title,
-  }: { data: { form: SuperValidated<Infer<FormSchema>> }; title: string } =
-    $props();
+  }: {
+    data: { form: SuperValidated<Infer<FormSchema>> };
+    title: string;
+    id: string;
+  } = $props();
   const form = superForm(data.form, {
     validators: zodClient(formSchema),
   });
-
   const { form: formData, enhance } = form;
 
   let symbol = $state($formData.symbol);
@@ -140,6 +143,6 @@
       </Form.Control>
       <Form.FieldErrors />
     </Form.Field>
-    <Form.Button>Submit</Form.Button>
+    <Form.Button>確認</Form.Button>
   </form>
 </section>

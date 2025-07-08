@@ -29,8 +29,9 @@ export const actions: Actions = {
         form,
       });
     }
+    const access_token = event.cookies.get("access_token") ?? "";
     await createTransaction({
-      access_token: event.cookies.get("access_token") ?? "",
+      access_token,
       symbol: form.data.symbol,
       amount: form.data.amount,
       price: form.data.price,

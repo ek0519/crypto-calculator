@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Direction, getTransactions } from "../../../api/backend";
+import { Direction, getTransactions } from "$api/backend";
 
 export const load = async ({ cookies, url }) => {
   const page = url.searchParams.get("page") ?? "1";
