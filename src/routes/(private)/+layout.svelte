@@ -6,8 +6,8 @@
   let { children } = $props();
 </script>
 
-<main class="flex justify-center mx-auto h-screen bg-gray-100 text-gray-800">
-  <div class="container max-w-md h-full relative bg-blue-400">
+<main class="flex justify-center mx-auto bg-gray-100 text-gray-800">
+  <div class="container max-w-md h-screen relative bg-blue-400">
     <div class="flex justify-end px-4 pt-4">
       <a
         href="/logout"
