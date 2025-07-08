@@ -5,13 +5,13 @@ import type { Actions, PageServerLoad } from "./$types";
 import { fail } from "sveltekit-superforms";
 import dayjs from "dayjs";
 import { redirect } from "@sveltejs/kit";
-import { createTransaction } from "../../../../api/backend";
+import { createTransaction } from "$api/backend";
 
 export const load: PageServerLoad = async () => {
   const defaultValues = {
     purchaseDate: dayjs().format("YYYY-MM-DD"),
     direction: "BUY" as const,
-    symbol: "ADA",
+    symbol: "Bitcoin",
     amount: 1,
     price: 1,
     note: "",

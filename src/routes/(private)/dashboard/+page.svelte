@@ -5,15 +5,15 @@
   import type { TransactionType } from "$type/transaction";
   import { onMount } from "svelte";
   import type { PageProps } from "./$types";
-  import { dashboard } from "../../../api/backend";
-  import { binanceFetchPrices } from "../../../api/binance";
-  import { krakenFetchPrice } from "../../../api/kraken";
+  import { dashboard } from "$api/backend";
+  import { binanceFetchPrices } from "$api/binance";
+  import { krakenFetchPrice } from "$api/kraken";
   import type { CryptoPrice } from "$type";
   import {
     computedRealTimeTotalPrice,
     type Holdings,
     holdings,
-  } from "../../../api/dashboard";
+  } from "$api/dashboard";
 
   let { data }: PageProps = $props();
 

@@ -27,11 +27,6 @@
     validators: zodClient(formSchema),
   });
   const { form: formData, enhance } = form;
-
-  let symbol = $state($formData.symbol);
-  const triggerContent = $derived(
-    options.find((item) => item.label === symbol)?.label,
-  );
 </script>
 
 <section class="bg-gray-50 rounded-2xl p-4 mb-4 font-bold text-center">
@@ -53,7 +48,7 @@
           <Form.Label>交易幣別</Form.Label>
           <Select.Root type="single" {...props} bind:value={$formData.symbol}>
             <Select.Trigger class="w-full text-right"
-              >{triggerContent}</Select.Trigger
+              >{$formData.symbol}</Select.Trigger
             >
             <Select.Content>
               {#each options as option (option)}

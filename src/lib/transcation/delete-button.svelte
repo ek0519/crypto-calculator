@@ -7,7 +7,7 @@
 
 <AlertDialog.Root bind:open>
   <AlertDialog.Trigger>
-    <Button type="submit" variant="destructive">delete</Button>
+    <Button type="submit" variant="destructive">刪除</Button>
   </AlertDialog.Trigger>
   <AlertDialog.Content>
     <AlertDialog.Header>

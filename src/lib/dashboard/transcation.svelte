@@ -12,6 +12,11 @@
 <section class="bg-gray-50 rounded-2xl p-4 font-bold text-center">
   <h1 class="text-xl text-left">{title}</h1>
   <div class="max-w-[500px] mx-auto mt-4">
+    <div class="text-gray-500">
+      {#if transactions.length === 0}
+        沒有任何交易
+      {/if}
+    </div>
     {#each transactions as transaction}
       <a
         href="/transcation/{transaction.id}"

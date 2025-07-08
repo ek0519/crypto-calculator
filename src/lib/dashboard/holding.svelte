@@ -5,6 +5,13 @@
 <section class="bg-gray-50 rounded-2xl p-4 mb-4 font-bold text-center">
   <h1 class="text-xl text-left">持幣分佈</h1>
   <div class="max-w-[500px] mx-auto mt-4">
+    {#if holdings.length === 0}
+      <div class="text-gray-500">沒有持有任何幣別</div>
+    {:else}
+      <div class="text-gray-500 mb-2">
+        共 {holdings.length} 種幣別
+      </div>
+    {/if}
     {#each holdings as holding}
       <div class="flex justify-between items-center border-b border-gray-200">
         <div class="text-left">
