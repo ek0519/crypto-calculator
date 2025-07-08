@@ -11,7 +11,7 @@
 
 <div class="rounded-b-2xl px-4">
   <Search {filters} />
-  <div class="mb-16">
+  <div class="mb-16 mt-4">
     <Transcation
       title={"交易紀錄"}
       latestTransactions={transactions as TransactionType[]}

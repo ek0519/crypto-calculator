@@ -38,7 +38,7 @@
   <div class="flex items-center justify-between">
     <h1 class="text-xl text-left">{title}</h1>
     {#if id}
-      <DeleteButton {id} />
+      <DeleteButton />
     {/if}
   </div>
   <form

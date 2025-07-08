@@ -78,7 +78,7 @@
   );
 </script>
 
-<section class="py-4">
+<section>
   <div class="grid grid-cols-2 gap-2 items-center mb-4">
     <div class="flex items-center w-full">
       <Bitcoin class="w-1/4" color="orange" size="24" />

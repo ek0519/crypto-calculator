@@ -8,8 +8,12 @@
 
 <main class="flex justify-center mx-auto h-screen bg-gray-100 text-gray-800">
   <div class="container max-w-md h-full relative bg-blue-400">
-    <div class="flex justify-end px-4 py-2">
-      <a href="/logout" class="text-white hover:text-gray-200">
+    <div class="flex justify-end px-4 pt-4">
+      <a
+        href="/logout"
+        data-sveltekit-preload-data="off"
+        class="text-white hover:text-gray-200"
+      >
         <LogOut size="24" color="white" />
       </a>
     </div>
