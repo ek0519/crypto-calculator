@@ -4,7 +4,7 @@ import {
   type UpdateTransactionParams,
 } from "$api/backend";
 import { isCuid } from "@paralleldrive/cuid2";
-import { error } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import { formSchema } from "@/transcation/schema.js";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
@@ -40,7 +40,9 @@ export const actions = {
       return { form };
     }
     const access_token = event.cookies.get("access_token") ?? "";
+    const id = event.params.id;
     await updateTransaction({
+      id,
       access_token,
       symbol: form.data.symbol,
       amount: form.data.amount,
@@ -49,6 +51,6 @@ export const actions = {
       direction: form.data.direction,
       purchaseDate: dayjs(form.data.purchaseDate).startOf("day").toDate(),
     } as UpdateTransactionParams);
-    return { success: true };
+    return redirect(303, "/transcation");
   },
 };
