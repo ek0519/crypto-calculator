@@ -12,14 +12,17 @@
   import { Input } from "$lib/components/ui/input/index.js";
   import { Label } from "$lib/components/ui/label/index.js";
   import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
-
+  import DeleteButton from "./delete-button.svelte";
   let {
     data,
     title,
+    id,
   }: {
     data: { form: SuperValidated<Infer<FormSchema>> };
     title: string;
+    id?: string;
   } = $props();
+
   const form = superForm(data.form, {
     validators: zodClient(formSchema),
   });
@@ -32,8 +35,18 @@
 </script>
 
 <section class="bg-gray-50 rounded-2xl p-4 mb-4 font-bold text-center">
-  <h1 class="text-xl text-left">{title}</h1>
-  <form method="POST" class="pt-4 grid gap-1" use:enhance>
+  <div class="flex items-center justify-between">
+    <h1 class="text-xl text-left">{title}</h1>
+    {#if id}
+      <DeleteButton {id} />
+    {/if}
+  </div>
+  <form
+    method="POST"
+    action={id ? "?/update" : "?/create"}
+    class="pt-4 grid gap-1"
+    use:enhance
+  >
     <Form.Field {form} name="symbol">
       <Form.Control>
         {#snippet children({ props })}

@@ -1,4 +1,5 @@
 import {
+  deleteTransaction,
   getTransaction,
   updateTransaction,
   type UpdateTransactionParams,
@@ -34,7 +35,7 @@ export const load = async ({ cookies, params }) => {
 };
 
 export const actions = {
-  default: async (event) => {
+  update: async (event) => {
     const form = await superValidate(event, zod(formSchema));
     if (!form.valid) {
       return { form };
@@ -50,6 +51,17 @@ export const actions = {
       note: form.data.note,
       direction: form.data.direction,
       purchaseDate: dayjs(form.data.purchaseDate).startOf("day").toDate(),
+    } as UpdateTransactionParams);
+    return redirect(303, "/transcation");
+  },
+  delete: async (event) => {
+    const access_token = event.cookies.get("access_token") ?? "";
+    console.log(access_token);
+    const id = event.params.id;
+    if (!isCuid(id)) error(400, "Invalid ID format");
+    await deleteTransaction({
+      id,
+      access_token,
     } as UpdateTransactionParams);
     return redirect(303, "/transcation");
   },

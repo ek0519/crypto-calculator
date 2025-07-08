@@ -21,7 +21,7 @@
       <span class="text-xs mt-1 font-medium">Dashboard</span>
     </a>
     <a
-      class="absolute bottom-0 -right-8 overflow-hidden"
+      class="absolute bottom-1 -right-8 overflow-hidden"
       href="/transcation/create"
       ><CirclePlus fill="white" size="64" color="blue" /></a
     >

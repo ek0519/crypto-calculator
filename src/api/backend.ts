@@ -168,3 +168,26 @@ export const updateTransaction = async ({
   }
   return response.data;
 };
+
+export const deleteTransaction = async ({
+  id,
+  access_token,
+}: {
+  id: string;
+  access_token: string;
+}) => {
+  const response = await client
+    .transcations({
+      id,
+    })
+    .delete(
+      {},
+      {
+        ...options(access_token),
+      },
+    );
+  if (response.status !== 200) {
+    throw new Error("Transaction delete failed");
+  }
+  return response.data;
+};
