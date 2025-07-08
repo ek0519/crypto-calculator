@@ -35,7 +35,6 @@ export const login = async (email: string) => {
 export enum Direction {
   BUY = "BUY",
   SELL = "SELL",
-  ALL = "ALL",
 }
 
 export interface CreateTransactionParams extends BasePrams {
@@ -89,9 +88,11 @@ interface Transaction {
 }
 
 export const getTransaction = async (access_token: string, id: string) => {
-  const response = await client[`transcations/${id}`].get(
-    options(access_token),
-  );
+  const response = await client
+    .transcations({
+      id,
+    })
+    .get(options(access_token));
 
   if (response.status !== 200) {
     throw new Error("Transaction get failed");
@@ -145,19 +146,23 @@ export const updateTransaction = async ({
   purchaseDate,
   id,
 }: UpdateTransactionParams) => {
-  const response = await client[`transcations/${id}`].put(
-    {
-      symbol,
-      amount,
-      price,
-      note,
-      direction,
-      purchaseDate,
-    },
-    {
-      ...options(access_token),
-    },
-  );
+  const response = await client
+    .transcations({
+      id,
+    })
+    .put(
+      {
+        symbol,
+        amount,
+        price,
+        note,
+        direction,
+        purchaseDate,
+      },
+      {
+        ...options(access_token),
+      },
+    );
   if (response.status !== 200) {
     throw new Error("Transaction update failed");
   }

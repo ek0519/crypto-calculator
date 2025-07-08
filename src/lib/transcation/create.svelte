@@ -15,12 +15,10 @@
 
   let {
     data,
-    id = "",
     title,
   }: {
     data: { form: SuperValidated<Infer<FormSchema>> };
     title: string;
-    id: string;
   } = $props();
   const form = superForm(data.form, {
     validators: zodClient(formSchema),
