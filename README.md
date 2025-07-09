@@ -13,7 +13,7 @@ use public api
 ## Installation Instructions
 
 1. Using Bun as runtime
-[bun](https://bun.sh/)
+   [bun](https://bun.sh/)
 
 2. Install Package
 

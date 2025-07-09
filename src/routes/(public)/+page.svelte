@@ -1,35 +1,14 @@
 <script lang="ts">
-  import * as Select from "$lib/components/ui/select/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
+  import * as Select from "$lib/components/ui/select/index.js";
 
   import { assets } from "$app/paths";
-  import logo from "$assets/logo.png";
   import cover from "$assets/cover.jpeg";
-  import { binanceFetchPrice } from "../api/binance";
-  import { krakenFetchPrice } from "../api/kraken";
+  import logo from "$assets/logo.png";
+  import { binanceFetchPrice } from "../../api/binance";
+  import { krakenFetchPrice } from "../../api/kraken";
+  import { options, priceLevelDown, priceLevelUp } from "../../config/crypto";
 
-  const options = [
-    { label: "Bitcoin", value: "BTCUSDC" },
-    { label: "Ethereum", value: "ETHUSDC" },
-    { label: "ADA", value: "ADAUSDC" },
-    { label: "Cronos", value: "CROUSD" },
-    { label: "DOT", value: "DOTUSDC" },
-    { label: "XRP", value: "XRPUSDC" },
-    { label: "Sonic(FTM)", value: "SUSDC" },
-    { label: "SUI", value: "SUIUSDC" },
-    { label: "CUSTOM", value: "" },
-  ];
-  const priceLevelDown = [
-    { label: "-3%", value: 0.97 },
-    { label: "-5%", value: 0.95 },
-    { label: "-10%", value: 0.9 },
-  ];
-
-  const priceLevelUp = [
-    { label: "10%", value: 1.1 },
-    { label: "5%", value: 1.05 },
-    { label: "3%", value: 1.03 },
-  ];
   let selected = $state("");
   let price = $state(1);
 
@@ -40,7 +19,7 @@
   $effect(() => {
     if (selected === "CROUSD") {
       krakenFetchPrice(selected).then((r) => {
-        if (r) price = r;
+        if (r) price = Number(r);
       });
     } else if (selected) {
       binanceFetchPrice(selected).then((r) => {
