@@ -18,32 +18,38 @@
   import _ from "lodash";
   import { ArrowUpDown } from "@lucide/svelte";
 
-  const { filters } = $props();
-
+  const { filters, loadMore } = $props();
+  console.log(filters);
   let value: DateRange = $state({
     start: filters?.from ? parseDate(filters.from) : undefined,
     end: filters?.to ? parseDate(filters.to) : undefined,
   });
   let symbol = $state(filters?.symbol ?? "ALL");
-  let direction = $state(filters?.direction ?? null);
+  let direction = $state(filters?.direction ?? "ALL");
 
   const debouncedSearch = _.debounce(async () => {
-    const query = new URLSearchParams({
+    console.log(111);
+    const query = {
       page: "1",
       limit: String(filters?.limit ?? "10"),
-      direction: direction ? direction : "",
+      direction: direction === "ALL" ? "" : direction,
       symbol: symbol !== "ALL" ? String(symbol ?? "") : "",
-      from: String(value.start?.toString() ?? ""),
-      to: String(value.end?.toString() ?? ""),
+      from: value.start ? String(value.start?.toString()) : undefined,
+      to: value.end ? String(value.end?.toString()) : undefined,
+    };
+    await loadMore({
+      ...query,
     });
-    await goto(`transcation?${query}`, { replaceState: true });
+    const searchParams = new URLSearchParams({
+      ..._.omitBy(query, (v) => v === undefined),
+    });
+    await goto(`transcation?${searchParams.toString()}`, {
+      replaceState: true,
+    });
   }, 500);
 
   $effect(() => {
-    symbol;
-    value;
-    direction;
-    debouncedSearch();
+    if (symbol || value.start || value.end || direction) debouncedSearch();
   });
 
   const cryptoOptions = ["ALL", ...options.map((item) => item.label)];
@@ -51,7 +57,7 @@
   const directionOptions = [
     {
       label: "ALL",
-      value: "",
+      value: "ALL",
     },
     {
       label: "BUY",

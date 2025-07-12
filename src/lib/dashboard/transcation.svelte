@@ -4,13 +4,23 @@
   import dayjs from "dayjs";
 
   let {
-    latestTransactions: transactions,
+    transactions,
     title,
-  }: { latestTransactions: TransactionType[]; title: string } = $props();
+    total,
+  }: {
+    transactions: TransactionType[];
+    title: string;
+    total?: number;
+  } = $props();
 </script>
 
 <section class="bg-gray-50 rounded-2xl p-4 font-bold text-center">
-  <h1 class="text-xl text-left">{title}</h1>
+  <div class="flex items-center justify-between">
+    <h1 class="text-xl text-left">{title}</h1>
+    {#if total}
+      <div>總筆數 {total}</div>
+    {/if}
+  </div>
   <div class="max-w-[500px] mx-auto mt-4">
     <div class="text-gray-500">
       {#if transactions.length === 0}

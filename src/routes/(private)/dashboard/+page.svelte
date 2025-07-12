@@ -73,6 +73,6 @@
   <Holding holdings={_holdings} />
   <Transcation
     title={"最新交易"}
-    latestTransactions={transactions as TransactionType[]}
+    transactions={transactions as TransactionType[]}
   />
 </div>
