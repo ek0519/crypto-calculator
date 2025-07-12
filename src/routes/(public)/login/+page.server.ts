@@ -23,8 +23,12 @@ export const actions: Actions = {
   default: async ({ request }) => {
     const data = await request.formData();
     const email = data.get("email")?.toString();
-    if (!email) return fail(400, { email, incorrect: true });
-    await login(email);
+    if (!email) return fail(400, { error: "Email is not correct" });
+    try {
+      await login(email);
+    } catch (error) {
+      return fail(400, { error: "Email is not correct" });
+    }
     return redirect(303, "/login?success=true");
   },
 };
