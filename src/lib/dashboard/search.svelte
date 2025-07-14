@@ -50,7 +50,10 @@
       to: value.end ? String(value.end?.toString()) : undefined,
     };
     const searchParams = new URLSearchParams({
-      ..._.omitBy(query, (v) => v === undefined || v === ""),
+      ...(_.omitBy(query, (v) => v === undefined || v === "") as Record<
+        string,
+        string
+      >),
     });
     await goto(`transcation?${searchParams.toString()}`, {
       replaceState: true,
