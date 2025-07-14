@@ -13,10 +13,9 @@
   }
 
   let { transactions, title, total, hasMore, loadMore }: Props = $props();
-  let observerElement: HTMLDivElement | null = null;
+  let observerElement = $state<HTMLDivElement | null>(null);
   let loading = $state<boolean>(false);
-
-  onMount(() => {
+  $effect(() => {
     if (observerElement && hasMore) {
       const observer = new IntersectionObserver(
         (entries: IntersectionObserverEntry[]) => {

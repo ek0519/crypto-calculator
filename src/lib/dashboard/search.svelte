@@ -49,14 +49,14 @@
       from: value.start ? String(value.start?.toString()) : undefined,
       to: value.end ? String(value.end?.toString()) : undefined,
     };
-    await resetAndLoad();
     const searchParams = new URLSearchParams({
       ..._.omitBy(query, (v) => v === undefined || v === ""),
     });
     await goto(`transcation?${searchParams.toString()}`, {
       replaceState: true,
     });
-  }, 500);
+    await resetAndLoad();
+  }, 750);
 
   $effect(() => {
     if (symbol || value.start || value.end || direction) debouncedSearch();

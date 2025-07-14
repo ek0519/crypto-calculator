@@ -31,11 +31,10 @@
     if (loading) return;
     loading = true;
     try {
-      console.log(symbol, filters);
       const response = await getTransactions({
         access_token: data.access_token ?? "",
         page: Number(currPage),
-        limit: 20,
+        limit: 15,
         direction,
         symbol,
         from,
@@ -56,6 +55,7 @@
       loading = false;
     }
   }
+
   function resetAndLoad(): Promise<void> {
     transactions = [];
     currPage = "1";
@@ -75,7 +75,7 @@
       title={"交易紀錄"}
       {transactions}
       {loadMore}
-      hasMore={nextPage !== null}
+      hasMore={Boolean(nextPage)}
     />
   </div>
 </div>
