@@ -2,15 +2,50 @@
   import type { TransactionType } from "$type/transaction";
   import { ArrowBigLeft, ArrowBigRight } from "@lucide/svelte";
   import dayjs from "dayjs";
+  import { onMount } from "svelte";
 
-  let {
-    latestTransactions: transactions,
-    title,
-  }: { latestTransactions: TransactionType[]; title: string } = $props();
+  interface Props {
+    transactions: TransactionType[];
+    title: string;
+    total?: number;
+    loadMore: () => Promise<void>;
+    hasMore: boolean;
+  }
+
+  let { transactions, title, total, hasMore, loadMore }: Props = $props();
+  let observerElement = $state<HTMLDivElement | null>(null);
+  let loading = $state<boolean>(false);
+  $effect(() => {
+    if (observerElement && hasMore) {
+      const observer = new IntersectionObserver(
+        (entries: IntersectionObserverEntry[]) => {
+          if (entries[0].isIntersecting && !loading) {
+            loading = true;
+            loadMore().finally(() => {
+              loading = false;
+            });
+          }
+        },
+        { threshold: 0.1, rootMargin: "100px" },
+      );
+      observer.observe(observerElement);
+
+      return () => {
+        if (observerElement) {
+          observer.unobserve(observerElement);
+        }
+      };
+    }
+  });
 </script>
 
 <section class="bg-gray-50 rounded-2xl p-4 font-bold text-center">
-  <h1 class="text-xl text-left">{title}</h1>
+  <div class="flex items-center justify-between">
+    <h1 class="text-xl text-left">{title}</h1>
+    {#if total}
+      <div>總筆數 {total}</div>
+    {/if}
+  </div>
   <div class="max-w-[500px] mx-auto mt-4">
     <div class="text-gray-500">
       {#if transactions.length === 0}
@@ -43,5 +78,11 @@
         </div>
       </a>
     {/each}
+    {#if loading}
+      <div class="text-center p-4">加載中...</div>
+    {/if}
+    {#if hasMore}
+      <div bind:this={observerElement} class="h-1"></div>
+    {/if}
   </div>
 </section>

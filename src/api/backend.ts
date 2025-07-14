@@ -35,6 +35,7 @@ export const login = async (email: string) => {
 export enum Direction {
   BUY = "BUY",
   SELL = "SELL",
+  ALL = "ALL",
 }
 
 export interface CreateTransactionParams extends BasePrams {

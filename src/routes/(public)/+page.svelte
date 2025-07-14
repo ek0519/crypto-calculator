@@ -11,22 +11,29 @@
 
   let selected = $state("");
   let price = $state(1);
+  let previousSelected = $state("");
 
   const triggerContent = $derived(
     options.find((item) => item.value === selected)?.label,
   );
 
   $effect(() => {
-    if (selected === "CROUSD") {
-      krakenFetchPrice(selected).then((r) => {
-        if (r) price = Number(r);
-      });
-    } else if (selected) {
-      binanceFetchPrice(selected).then((r) => {
-        if (r) price = r;
-      });
+    // 只有在 selected 真的改變時才執行
+    if (selected !== previousSelected && selected !== "") {
+      if (selected === "CROUSD") {
+        krakenFetchPrice(selected).then((r) => {
+          if (r) price = Number(r);
+        });
+      } else {
+        binanceFetchPrice(selected).then((r) => {
+          if (r) price = r;
+        });
+      }
+    } else if (selected === "" && previousSelected !== "") {
+      // 當清空選擇時，重置價格
+      price = 1;
     }
-    price = 1;
+    previousSelected = selected;
   });
 </script>
 
