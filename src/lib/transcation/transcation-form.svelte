@@ -13,6 +13,8 @@
   import { Label } from "$lib/components/ui/label/index.js";
   import * as RadioGroup from "$lib/components/ui/radio-group/index.js";
   import DeleteButton from "./delete-button.svelte";
+  import { ArrowLeft } from "@lucide/svelte";
+
   let {
     data,
     title,
@@ -31,7 +33,12 @@
 
 <section class="bg-gray-50 rounded-2xl p-4 mb-4 font-bold text-center">
   <div class="flex items-center justify-between">
-    <h1 class="text-xl text-left">{title}</h1>
+    <div class="flex items-center space-x-2">
+      <a href="/transcation">
+        <ArrowLeft />
+      </a>
+      <h1 class="text-xl text-left">{title}</h1>
+    </div>
     {#if id}
       <DeleteButton />
     {/if}
