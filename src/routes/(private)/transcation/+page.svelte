@@ -8,16 +8,14 @@
   import { onMount } from "svelte";
 
   let { data }: PageProps = $props();
-  const url = page.url;
   let total = $state(0);
-  let totalPage = $state(0);
   let nextPage = $state<number | null>(null);
-  let currPage = $state(url.searchParams.get("page") ?? "1");
-  let symbol = $state(url.searchParams.get("symbol") ?? "");
-  let from = $state(url.searchParams.get("from") ?? undefined);
-  let to = $state(url.searchParams.get("to") ?? undefined);
-  let direction = $state(
-    (url.searchParams.get("direction") as Direction) ?? "",
+  let currPage = $derived(page.url.searchParams.get("page") ?? "1");
+  let symbol = $derived(page.url.searchParams.get("symbol") ?? "");
+  let from = $derived(page.url.searchParams.get("from") ?? undefined);
+  let to = $derived(page.url.searchParams.get("to") ?? undefined);
+  let direction = $derived(
+    (page.url.searchParams.get("direction") as Direction) ?? "",
   );
   let filters = $derived({
     page: currPage,
@@ -26,58 +24,58 @@
     to,
     direction,
   });
-  let transactions = $derived([] as TransactionType[]);
+  let transactions = $state<TransactionType[]>([]);
+  let loading = $state<boolean>(false);
 
-  async function loadMore({
-    page,
-    limit,
-    symbol,
-    from,
-    to,
-    direction,
-  }: {
-    page: string;
-    limit: string;
-    symbol: string;
-    from?: string;
-    to?: string;
-    direction: Direction;
-  }) {
-    const response = await getTransactions({
-      access_token: data.access_token ?? "",
-      page: Number(page),
-      limit: Number(limit),
-      direction,
-      symbol,
-      from,
-      to,
-    });
-    if (response) {
-      total = response.total;
-      totalPage = response.totalPage;
-      nextPage = response.nextPage;
-      transactions = response.data as TransactionType[];
+  async function loadMore(): Promise<void> {
+    if (loading) return;
+    loading = true;
+    try {
+      console.log(symbol, filters);
+      const response = await getTransactions({
+        access_token: data.access_token ?? "",
+        page: Number(currPage),
+        limit: 20,
+        direction,
+        symbol,
+        from,
+        to,
+      });
+      if (response) {
+        total = response.total;
+        nextPage = response.nextPage;
+        transactions = [
+          ...transactions,
+          ...(response.data as TransactionType[]),
+        ];
+        currPage = String(Number(currPage) + 1);
+      }
+    } catch (error) {
+      console.error("加載數據失敗:", error);
+    } finally {
+      loading = false;
     }
   }
+  function resetAndLoad(): Promise<void> {
+    transactions = [];
+    currPage = "1";
+    return loadMore();
+  }
+
   onMount(() => {
-    loadMore({
-      page: currPage,
-      limit: "10",
-      symbol,
-      from,
-      to,
-      direction,
-    });
+    resetAndLoad();
   });
 </script>
 
 <div class="rounded-b-2xl px-4">
-  <Search {filters} {loadMore} />
+  <Search {filters} {resetAndLoad} />
   <div class="mb-20 mt-4">
     <Transcation
       {total}
       title={"交易紀錄"}
-      transactions={transactions as TransactionType[]}
+      {transactions}
+      {loadMore}
+      hasMore={nextPage !== null}
     />
   </div>
 </div>

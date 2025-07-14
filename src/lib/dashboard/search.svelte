@@ -17,9 +17,22 @@
   import { goto } from "$app/navigation";
   import _ from "lodash";
   import { ArrowUpDown } from "@lucide/svelte";
+  import type { Direction } from "$api/backend";
 
-  const { filters, loadMore } = $props();
-  console.log(filters);
+  interface Filters {
+    page: string;
+    symbol: string;
+    from?: string;
+    to?: string;
+    direction: Direction | "";
+  }
+
+  interface Props {
+    filters: Filters;
+    resetAndLoad: () => Promise<void>;
+  }
+
+  const { filters, resetAndLoad }: Props = $props();
   let value: DateRange = $state({
     start: filters?.from ? parseDate(filters.from) : undefined,
     end: filters?.to ? parseDate(filters.to) : undefined,
@@ -28,20 +41,17 @@
   let direction = $state(filters?.direction ?? "ALL");
 
   const debouncedSearch = _.debounce(async () => {
-    console.log(111);
     const query = {
       page: "1",
-      limit: String(filters?.limit ?? "10"),
+      limit: "15",
       direction: direction === "ALL" ? "" : direction,
       symbol: symbol !== "ALL" ? String(symbol ?? "") : "",
       from: value.start ? String(value.start?.toString()) : undefined,
       to: value.end ? String(value.end?.toString()) : undefined,
     };
-    await loadMore({
-      ...query,
-    });
+    await resetAndLoad();
     const searchParams = new URLSearchParams({
-      ..._.omitBy(query, (v) => v === undefined),
+      ..._.omitBy(query, (v) => v === undefined || v === ""),
     });
     await goto(`transcation?${searchParams.toString()}`, {
       replaceState: true,

@@ -2,16 +2,42 @@
   import type { TransactionType } from "$type/transaction";
   import { ArrowBigLeft, ArrowBigRight } from "@lucide/svelte";
   import dayjs from "dayjs";
+  import { onMount } from "svelte";
 
-  let {
-    transactions,
-    title,
-    total,
-  }: {
+  interface Props {
     transactions: TransactionType[];
     title: string;
     total?: number;
-  } = $props();
+    loadMore: () => Promise<void>;
+    hasMore: boolean;
+  }
+
+  let { transactions, title, total, hasMore, loadMore }: Props = $props();
+  let observerElement: HTMLDivElement | null = null;
+  let loading = $state<boolean>(false);
+
+  onMount(() => {
+    if (observerElement && hasMore) {
+      const observer = new IntersectionObserver(
+        (entries: IntersectionObserverEntry[]) => {
+          if (entries[0].isIntersecting && !loading) {
+            loading = true;
+            loadMore().finally(() => {
+              loading = false;
+            });
+          }
+        },
+        { threshold: 0.1, rootMargin: "100px" },
+      );
+      observer.observe(observerElement);
+
+      return () => {
+        if (observerElement) {
+          observer.unobserve(observerElement);
+        }
+      };
+    }
+  });
 </script>
 
 <section class="bg-gray-50 rounded-2xl p-4 font-bold text-center">
@@ -53,5 +79,11 @@
         </div>
       </a>
     {/each}
+    {#if loading}
+      <div class="text-center p-4">加載中...</div>
+    {/if}
+    {#if hasMore}
+      <div bind:this={observerElement} class="h-1"></div>
+    {/if}
   </div>
 </section>
