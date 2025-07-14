@@ -71,8 +71,5 @@
     {realTimePriceColor}
   />
   <Holding holdings={_holdings} />
-  <Transcation
-    title={"最新交易"}
-    transactions={transactions as TransactionType[]}
-  />
+  <Transcation title={"最新交易"} {transactions} />
 </div>

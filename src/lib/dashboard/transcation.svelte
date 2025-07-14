@@ -2,41 +2,42 @@
   import type { TransactionType } from "$type/transaction";
   import { ArrowBigLeft, ArrowBigRight } from "@lucide/svelte";
   import dayjs from "dayjs";
-  import { onMount } from "svelte";
 
   interface Props {
     transactions: TransactionType[];
     title: string;
     total?: number;
-    loadMore: () => Promise<void>;
-    hasMore: boolean;
+    loadMore?: () => Promise<void>;
+    hasMore?: boolean;
   }
 
   let { transactions, title, total, hasMore, loadMore }: Props = $props();
   let observerElement = $state<HTMLDivElement | null>(null);
   let loading = $state<boolean>(false);
-  $effect(() => {
-    if (observerElement && hasMore) {
-      const observer = new IntersectionObserver(
-        (entries: IntersectionObserverEntry[]) => {
-          if (entries[0].isIntersecting && !loading) {
-            loading = true;
-            loadMore().finally(() => {
-              loading = false;
-            });
-          }
-        },
-        { threshold: 0.1, rootMargin: "100px" },
-      );
-      observer.observe(observerElement);
+  if (loadMore) {
+    $effect(() => {
+      if (observerElement && hasMore) {
+        const observer = new IntersectionObserver(
+          (entries: IntersectionObserverEntry[]) => {
+            if (entries[0].isIntersecting && !loading) {
+              loading = true;
+              loadMore().finally(() => {
+                loading = false;
+              });
+            }
+          },
+          { threshold: 0.1, rootMargin: "100px" },
+        );
+        observer.observe(observerElement);
 
-      return () => {
-        if (observerElement) {
-          observer.unobserve(observerElement);
-        }
-      };
-    }
-  });
+        return () => {
+          if (observerElement) {
+            observer.unobserve(observerElement);
+          }
+        };
+      }
+    });
+  }
 </script>
 
 <section class="bg-gray-50 rounded-2xl p-4 font-bold text-center">
