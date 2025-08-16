@@ -6,23 +6,34 @@
     "useIgnoreFile": false
   },
   "files": {
-    "include": ["src/**/*.{js,ts,jsx,tsx,svelte}"],
-    "ignore": ["node_modules", "dist"]
+    "includes": [
+      "**/src/**/*.{js,ts,jsx,tsx,svelte}",
+      "!**/node_modules",
+      "!**/dist"
+    ]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2
   },
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
       "style": {
-        "useConst": "warn"
+        "useConst": "warn",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       }
     }
   },

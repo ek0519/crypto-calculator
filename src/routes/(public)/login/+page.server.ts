@@ -17,6 +17,7 @@ export const load: PageServerLoad = async ({ url, locals, cookies }) => {
     if (user) return redirect(303, "/dashboard");
     return fail(401, { error: "Token was invalid" });
   }
+  return { status: "unauthenticated" };
 };
 
 export const actions: Actions = {
