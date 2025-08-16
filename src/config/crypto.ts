@@ -7,6 +7,7 @@ export const options = [
   { label: "XRP", value: "XRPUSDC" },
   { label: "Sonic(FTM)", value: "SUSDC" },
   { label: "SUI", value: "SUIUSDC" },
+  { label: "SNEK", value: "SNEKUSD" },
   { label: "CUSTOM", value: "" },
 ];
 

@@ -20,7 +20,7 @@
   $effect(() => {
     // 只有在 selected 真的改變時才執行
     if (selected !== previousSelected && selected !== "") {
-      if (selected === "CROUSD") {
+      if (["CROUSD", "SNEKUSD"].includes(selected)) {
         krakenFetchPrice(selected).then((r) => {
           if (r) price = Number(r);
         });
